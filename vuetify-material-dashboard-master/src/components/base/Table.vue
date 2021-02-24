@@ -20,8 +20,8 @@
     <v-row class="mb-12">
       <v-col>
         <base-material-card
-          icon="mdi-clipboard-text"
-          title="Simple Table"
+          :icon="icon"
+          :title="title"
           class="px-5 py-3 mb-12"
         >
           <div>
@@ -51,50 +51,51 @@
                   </th>
                 </tr>
               </thead>
-
-              <tbody
-                v-for="(item, i) in contents"
-                :key="i"
-              >
-                <tr>
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ item.title }}</td>
-                  <td>{{ item.status ? item.status : ' - ' }}</td>
-                  <td>{{ item.views }}</td>
-                  <td v-if="item.category.name">
-                    {{ item.category.name ? item.category.name : ' - ' }}
-                  </td>
-                  <td v-if="item.user.name">
-                    {{ item.user.name ? item.user.name : ' - ' }}
-                  </td>
-                  <td>
-                    <v-btn
-                      icon
-                      @click="deltPostNews(item.id)"
-                    >
-                      <v-icon color="red">
-                        mdi-delete
-                      </v-icon>
-                    </v-btn>
-                    <v-btn
-                      icon
-                      :to="`/post/${item.id}/edit`"
-                    >
-                      <v-icon color="blue">
-                        mdi-pencil
-                      </v-icon>
-                    </v-btn>
-                    <v-btn
-                      icon
-                      @click="approvenews"
-                    >
-                      <v-icon color="primary">
-                        mdi-checkbox-marked-circle-outline
-                      </v-icon>
-                    </v-btn>
-                  </td>
-                </tr>
-              </tbody>
+              <template v-if="contents">
+                <tbody
+                  v-for="(item, i) in contents"
+                  :key="i"
+                >
+                  <tr>
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.status ? item.status : ' - ' }}</td>
+                    <td>{{ item.views }}</td>
+                    <td v-if="item.category.name">
+                      {{ item.category.name ? item.category.name : ' - ' }}
+                    </td>
+                    <td v-if="item.user.name">
+                      {{ item.user.name ? item.user.name : ' - ' }}
+                    </td>
+                    <td>
+                      <v-btn
+                        icon
+                        @click="deltPostNews(item.id)"
+                      >
+                        <v-icon color="red">
+                          mdi-delete
+                        </v-icon>
+                      </v-btn>
+                      <v-btn
+                        icon
+                        :to="`/post/${item.id}/edit`"
+                      >
+                        <v-icon color="blue">
+                          mdi-pencil
+                        </v-icon>
+                      </v-btn>
+                      <v-btn
+                        icon
+                        @click="approvenews"
+                      >
+                        <v-icon color="primary">
+                          mdi-checkbox-marked-circle-outline
+                        </v-icon>
+                      </v-btn>
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
             </v-simple-table>
           </div>
         </base-material-card>
@@ -117,6 +118,14 @@
   export default {
     name: 'Table',
     props: {
+      title: {
+        type: String,
+        default: '',
+      },
+      icon: {
+        type: String,
+        default: '',
+      },
       col1: {
         type: String,
         default: '',

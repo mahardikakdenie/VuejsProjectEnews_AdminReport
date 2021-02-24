@@ -8,6 +8,8 @@
       <v-col>
         <div>
           <base-table
+            title="Index News"
+            icon="mdi-clipboard-text"
             col1="id"
             col2="title"
             col3="status"
