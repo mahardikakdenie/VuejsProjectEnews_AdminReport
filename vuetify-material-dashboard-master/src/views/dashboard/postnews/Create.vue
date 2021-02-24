@@ -91,7 +91,7 @@
       ctgr: {
         data: [],
       },
-      status: ['publish', 'draft', 'preview'],
+      status: ['draft', 'preview'],
       showImageModal: false,
       formEntered: false,
       mounting: false,

@@ -17,6 +17,7 @@
             col7="actions"
             :contents="post"
             @deltPostNews="delPost($event)"
+            @getPost="getPost"
           />
         </div>
       </v-col>

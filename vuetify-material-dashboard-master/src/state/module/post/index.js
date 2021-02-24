@@ -38,7 +38,7 @@ export default {
       state.post = payload
     },
     DEL_POST (state, id) {
-      const post = state.post.data.filter(x => x.id === id)
+      const post = state.post.data.filter(x => x.id !== id)
       state.post.data.id = post
     },
   },
@@ -132,6 +132,38 @@ export default {
             status: payload.status,
             post: payload.post,
           })
+          .then(response => {
+            if (response.data.meta.status) {
+              const post = response.data.data
+              commit('GET_POST', post)
+              resolve(response)
+            }
+          })
+          .catch(e => {
+            reject(e)
+          })
+      })
+    },
+    showListNews ({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`http://127.0.0.1:8000/api/post/${payload.id}`)
+          .then(response => {
+            if (response.data.meta.status) {
+              const post = response.data.data
+              commit('GET_POST', post)
+              resolve(response)
+            }
+          })
+          .catch(e => {
+            reject(e)
+          })
+      })
+    },
+    approvePostNews ({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .patch(`http://127.0.0.1:8000/api/post/${payload.id}/approve`)
           .then(response => {
             if (response.data.meta.status) {
               const post = response.data.data

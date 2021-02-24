@@ -4,14 +4,14 @@
     <div class="post-inputs">
       <div class="title-input">
         <v-text-field
-          v-model="title"
+          v-model="post.title"
           placeholder="Enter a post title"
           prepend-icon="mdi-message"
         />
       </div>
       <div class="cat-input">
         <v-select
-          v-model="category"
+          v-model="post.category_id"
           label="Category"
           :items="categoryState.data"
           item-text="name"
@@ -20,7 +20,7 @@
       </div>
       <div class="cat-input">
         <v-select
-          v-model="statusKey"
+          v-model="post.status"
           label="Status"
           :items="status"
           item-text="name"
@@ -35,7 +35,7 @@
       >
         <quill-editor
           ref="myQuillEditor"
-          v-model="content"
+          v-model="post.post"
           :style="
             $vuetify.theme.dark
               ? 'background-color: #5D5863;'
@@ -45,7 +45,10 @@
         />
       </v-col>
     </v-row>
-    <div class="post-actions-row">
+    <div
+      class="post-actions-row"
+      @click="editPostNews"
+    >
       <v-btn text>
         Edit
       </v-btn>
@@ -115,11 +118,35 @@
           type: 'category/getCategory',
         })
       },
+      showPostnews () {
+        this.$store.dispatch({
+          type: 'post/showListNews',
+          id: this.$route.params.id,
+        })
+      },
+      editPostNews () {
+        this.$store.dispatch({
+          id: this.$route.params.id,
+          type: 'post/editShow',
+          title: this.post.title,
+          category: this.post.category_id,
+          status: this.post.status,
+          post: this.post.post,
+        })
+        this.$router.push({ path: '/post/news' })
+        this.$toast.success('Berhasil mengubah data', {
+          type: 'success',
+          position: 'top-right',
+          duration: 3000,
+          dismissible: true,
+        })
+      },
     },
     // eslint-disable-next-line vue/order-in-components
     computed: {
       ...mapGetters(['delta', 'contents']),
       ...mapGetters('category', ['categoryState']),
+      ...mapGetters('post', ['post']),
     },
     // eslint-disable-next-line vue/order-in-components
     mounted () {
@@ -129,6 +156,7 @@
       }
       this.getCategory()
       this.content = ''
+      this.showPostnews()
     },
   }
 </script>

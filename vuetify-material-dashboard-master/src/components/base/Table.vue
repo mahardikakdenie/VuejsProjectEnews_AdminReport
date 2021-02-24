@@ -59,7 +59,7 @@
                 <tr>
                   <td>{{ i + 1 }}</td>
                   <td>{{ item.title }}</td>
-                  <td>{{ item.status }}</td>
+                  <td>{{ item.status ? item.status : ' - ' }}</td>
                   <td>{{ item.views }}</td>
                   <td v-if="item.category.name">
                     {{ item.category.name ? item.category.name : ' - ' }}
@@ -82,6 +82,14 @@
                     >
                       <v-icon color="blue">
                         mdi-pencil
+                      </v-icon>
+                    </v-btn>
+                    <v-btn
+                      icon
+                      @click="approvenews(item.id)"
+                    >
+                      <v-icon color="primary">
+                        mdi-checkbox-marked-circle-outline
                       </v-icon>
                     </v-btn>
                   </td>
@@ -141,16 +149,19 @@
     },
     data: () => ({
       q: '',
+      approve: false,
     }),
     methods: {
       deltPostNews (id) {
         this.$emit('deltPostNews', id)
       },
       searchPost () {
-        this.$store.dispatch({
-          type: 'post/searchPost',
-          q: this.q,
-        })
+        if (this.q !== '') {
+          this.$store.dispatch({
+            type: 'post/searchPost',
+            q: this.q,
+          })
+        }
       },
       search () {
         if (this.timer) {
@@ -160,6 +171,23 @@
         this.timer = setTimeout(() => {
           this.searchPost()
         }, 700)
+      },
+      getPost () {
+        this.$emit('getPost')
+      },
+      approvenews (id) {
+        this.$store.dispatch({
+          type: 'post/approvePostNews',
+          id: id,
+        })
+        // update
+        this.$toast.success('Berhasil menyetujui data', {
+          type: 'success',
+          position: 'top-right',
+          duration: 3000,
+          dismissible: true,
+        })
+        this.getPost()
       },
     },
   }
