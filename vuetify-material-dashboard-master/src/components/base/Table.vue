@@ -86,7 +86,7 @@
                     </v-btn>
                     <v-btn
                       icon
-                      @click="approvenews(item.id)"
+                      @click="approvenews"
                     >
                       <v-icon color="primary">
                         mdi-checkbox-marked-circle-outline
@@ -100,6 +100,13 @@
         </base-material-card>
       </v-col>
     </v-row>
+    <v-col>
+      <template>
+        <v-dialog v-model="dialog.open">
+          <base-dialog />
+        </v-dialog>
+      </template>
+    </v-col>
   </v-app>
 </template>
 
@@ -150,6 +157,9 @@
     data: () => ({
       q: '',
       approve: false,
+      dialog: {
+        open: false,
+      },
     }),
     methods: {
       deltPostNews (id) {
@@ -188,6 +198,9 @@
           dismissible: true,
         })
         this.getPost()
+      },
+      open () {
+        this.open.dialog = true
       },
     },
   }
