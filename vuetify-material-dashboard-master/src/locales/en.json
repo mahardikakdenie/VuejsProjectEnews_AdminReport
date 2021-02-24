@@ -42,5 +42,7 @@
   "vforms": "Validation Forms",
   "widgets": "Widgets",
   "wizard": "Wizard",
-  "logout": "Logout"
+  "logout": "Logout",
+  "news": "News",
+  "create": "Create News"
 }

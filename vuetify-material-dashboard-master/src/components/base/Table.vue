@@ -1,0 +1,168 @@
+<template>
+  <v-app>
+    <v-row class="mt-12">
+      <v-col
+        cols="12"
+        md="4"
+        lg="4"
+      >
+        <v-text-field
+          v-model="q"
+          class="ml-5"
+          append-icon="mdi-magnify"
+          :label="$t('search')"
+          color="secondary"
+          hide-details
+          @keyup="search"
+        />
+      </v-col>
+    </v-row>
+    <v-row class="mb-12">
+      <v-col>
+        <base-material-card
+          icon="mdi-clipboard-text"
+          title="Simple Table"
+          class="px-5 py-3 mb-12"
+        >
+          <div>
+            <v-simple-table>
+              <thead>
+                <tr>
+                  <th class="primary--text">
+                    {{ col1 }}
+                  </th>
+                  <th class="primary--text">
+                    {{ col2 }}
+                  </th>
+                  <th class="primary--text">
+                    {{ col3 }}
+                  </th>
+                  <th class="primary--text">
+                    {{ col4 }}
+                  </th>
+                  <th class="primary--text">
+                    {{ col5 }}
+                  </th>
+                  <th class="primary--text">
+                    {{ col6 }}
+                  </th>
+                  <th class="primary--text">
+                    {{ col7 }}
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody
+                v-for="(item, i) in contents"
+                :key="i"
+              >
+                <tr>
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ item.title }}</td>
+                  <td>{{ item.status }}</td>
+                  <td>{{ item.views }}</td>
+                  <td v-if="item.category.name">
+                    {{ item.category.name ? item.category.name : ' - ' }}
+                  </td>
+                  <td v-if="item.user.name">
+                    {{ item.user.name ? item.user.name : ' - ' }}
+                  </td>
+                  <td>
+                    <v-btn
+                      icon
+                      @click="deltPostNews(item.id)"
+                    >
+                      <v-icon color="red">
+                        mdi-delete
+                      </v-icon>
+                    </v-btn>
+                    <v-btn
+                      icon
+                      :to="`/post/${item.id}/edit`"
+                    >
+                      <v-icon color="blue">
+                        mdi-pencil
+                      </v-icon>
+                    </v-btn>
+                  </td>
+                </tr>
+              </tbody>
+            </v-simple-table>
+          </div>
+        </base-material-card>
+      </v-col>
+    </v-row>
+  </v-app>
+</template>
+
+<script>
+  import axios from 'axios'
+  axios.defaults.headers.common.Authorization =
+    'Bearer ' + localStorage.getItem('access')
+  export default {
+    name: 'Table',
+    props: {
+      col1: {
+        type: String,
+        default: '',
+      },
+      col2: {
+        type: String,
+        default: '',
+      },
+      col3: {
+        type: String,
+        default: '',
+      },
+      col4: {
+        type: String,
+        default: '',
+      },
+      col5: {
+        type: String,
+        default: '',
+      },
+      col6: {
+        type: String,
+        default: '',
+      },
+      col7: {
+        type: String,
+        default: '',
+      },
+      contents: {
+        type: Array,
+        default: () => [],
+      },
+      isLoading: {
+        type: Boolean,
+        defaults: false,
+      },
+    },
+    data: () => ({
+      q: '',
+    }),
+    methods: {
+      deltPostNews (id) {
+        this.$emit('deltPostNews', id)
+      },
+      searchPost () {
+        this.$store.dispatch({
+          type: 'post/searchPost',
+          q: this.q,
+        })
+      },
+      search () {
+        if (this.timer) {
+          clearTimeout(this.timer)
+          this.timer = null
+        }
+        this.timer = setTimeout(() => {
+          this.searchPost()
+        }, 700)
+      },
+    },
+  }
+</script>
+
+<style></style>

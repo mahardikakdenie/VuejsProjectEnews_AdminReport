@@ -1,5 +1,8 @@
 <template>
-  <v-footer id="dashboard-core-footer">
+  <v-footer
+    id="dashboard-core-footer"
+    color="dark"
+  >
     <v-container>
       <v-row
         align="center"
@@ -11,13 +14,14 @@
           class="text-center mb-sm-0 mb-5"
           cols="auto"
         >
-          <a
-            :href="link.href"
-            class="mr-0 grey--text text--darken-3"
-            rel="noopener"
-            target="_blank"
-            v-text="link.text"
-          />
+          <v-btn
+            icon
+            :color="$vuetify.theme.dark ? 'primary' : 'white'"
+          >
+            <v-icon>
+              {{ link.icon }}
+            </v-icon>
+          </v-btn>
         </v-col>
 
         <v-spacer class="hidden-sm-and-down" />
@@ -27,12 +31,16 @@
           md="auto"
         >
           <div class="text-body-1 font-weight-light pt-6 pt-md-0 text-center">
-            &copy; 2019, made with
+            &copy; 2021, made with
             <v-icon size="18">
               mdi-heart
             </v-icon>
-            by <a href="https://www.creative-tim.com">Creative Tim</a> for a
-            better web.
+            by
+            <a
+              href="https://instagram.com/mahardikakdenie"
+              target="_blank"
+            >Mahardika Kessuma Denie</a>
+            for a better web.
           </div>
         </v-col>
       </v-row>
@@ -49,18 +57,22 @@
         {
           href: '#',
           text: 'Creative Tim',
+          icon: 'mdi-telegram',
         },
         {
           href: '#',
           text: 'About Us',
+          icon: 'mdi-youtube',
         },
         {
           href: '#',
           text: 'Blog',
+          icon: 'mdi-facebook',
         },
         {
           href: '#',
           text: 'Licenses',
+          icon: 'mdi-instagram',
         },
       ],
     }),

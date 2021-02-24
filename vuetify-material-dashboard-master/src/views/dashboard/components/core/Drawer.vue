@@ -118,6 +118,23 @@
           to: '/pages/user',
         },
         {
+          icon: 'mdi-newspaper-variant-outline',
+          title: 'news',
+          group: '/post',
+          children: [
+            {
+              icon: 'mdi-newspaper-variant-outline',
+              title: 'news',
+              to: 'news',
+            },
+            {
+              icon: 'mdi-newspaper-variant-outline',
+              title: 'create',
+              to: 'create',
+            },
+          ],
+        },
+        {
           title: 'rtables',
           icon: 'mdi-clipboard-outline',
           to: '/tables/regular-tables',

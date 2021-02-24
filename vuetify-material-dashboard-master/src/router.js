@@ -45,6 +45,31 @@ export default new Router({
             requiresAuth: true,
           },
         },
+        // Post
+        {
+          name: 'Index News',
+          path: '/post/news',
+          component: () => import('@/views/dashboard/postnews/Index'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          name: 'CreateNews',
+          path: '/post/create',
+          component: () => import('@/views/dashboard/postnews/Create'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          name: 'Edit News',
+          path: '/post/:id/edit',
+          component: () => import('@/views/dashboard/postnews/Edit'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
         // Pages
         {
           name: 'User Profile',
@@ -91,7 +116,7 @@ export default new Router({
         {
           name: 'Google Maps',
           path: 'maps/google-maps',
-          component: () => import('@/views/dashboard/maps/GoogleMaps'),
+          component: () => import('@/views/dashboard/postnews/GoogleMaps'),
           meta: {
             requiresAuth: true,
           },
