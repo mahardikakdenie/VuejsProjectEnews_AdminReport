@@ -14,14 +14,20 @@ export default {
           created_at: null,
           updated_at: null,
           isLoading: false,
-          caegory: [
+          category: [
             {
-              name: '',
+              name: null,
             },
           ],
           user: [
             {
-              name: '',
+              name: null,
+            },
+          ],
+          thumbnail: [
+            {
+              name_thumbnail: '',
+              url: '',
             },
           ],
         },
@@ -47,8 +53,13 @@ export default {
       axios.defaults.headers.common.Authorization =
         'Bearer ' + localStorage.getItem('access')
       return new Promise((resolve, reject) => {
+        const params = {
+          id: '-id',
+          limit: 10,
+          // category: 'komunitas',
+        }
         axios
-          .get('http://127.0.0.1:8000/api/post')
+          .get('http://127.0.0.1:8000/api/post', { params: params })
           .then(response => {
             if (response.data.meta.status) {
               const post = response.data.data
@@ -110,6 +121,7 @@ export default {
             category_id: payload.category_id,
             status: payload.status,
             post: payload.post,
+            thumbnail_id: payload.thumbnail_id,
           })
           .then(response => {
             if (response.data.meta.status) {
@@ -131,6 +143,7 @@ export default {
             category_id: payload.category_id,
             status: payload.status,
             post: payload.post,
+            thumbnail_id: payload.thumbnail_id,
           })
           .then(response => {
             if (response.data.meta.status) {

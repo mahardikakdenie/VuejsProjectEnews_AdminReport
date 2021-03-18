@@ -12,7 +12,8 @@
                 {{ text1 }}
               </v-card-title>
               <v-card-text>
-                apakah anda yakin akan {{ text2 }} yang berjudul {..}
+                apakah anda yakin akan {{ text2 }} yang berjudul
+                {{ contents.title }}
               </v-card-text>
               <v-divider />
               <v-card-actions>
@@ -39,6 +40,10 @@
       text1: {
         type: String,
         default: '',
+      },
+      contents: {
+        type: Object,
+        default: () => {},
       },
       text2: {
         type: String,

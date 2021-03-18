@@ -27,6 +27,17 @@
           item-value="id"
         />
       </div>
+      <div class="cat-input">
+        <v-file-input
+          v-model="file"
+          counter
+          show-size
+          accept="image/png, image/jpeg, image/bmp"
+          prepend-icon="mdi-camera"
+          placeholder="Unggah Gambar Thumbnail"
+          @change="selected"
+        />
+      </div>
     </div>
     <v-row justify="center">
       <v-col
@@ -77,6 +88,8 @@
       quillEditor,
     },
     data: () => ({
+      file: null,
+      image_id: null,
       title: '',
       statusKey: '',
       category: '',
@@ -95,6 +108,7 @@
       showImageModal: false,
       formEntered: false,
       mounting: false,
+      selectedFile: null,
     }),
     watch: {
       content (val) {
@@ -109,6 +123,17 @@
       },
     },
     methods: {
+      selected (event) {
+        console.log(this.file)
+        const data = new FormData()
+        data.append('photo', this.file)
+        data.append('name_thumbnail', this.file.name)
+        const URL = 'http://127.0.0.1:8000/api/thumbnail'
+        axios.post(URL, data).then(response => {
+          console.log(response.data)
+          this.image_id = response.data.data.id
+        })
+      },
       publish () {
         // TODO
         this.formEntered = true
@@ -125,6 +150,7 @@
           category_id: this.category,
           status: this.statusKey,
           post: this.content,
+          thumbnail_id: this.image_id,
         })
         //   .then(response => {
         // if (response.data.meta.status) {
@@ -135,8 +161,6 @@
           duration: 3000,
           dismissible: true,
         })
-      // }
-      //   })
       },
     },
     // eslint-disable-next-line vue/order-in-components

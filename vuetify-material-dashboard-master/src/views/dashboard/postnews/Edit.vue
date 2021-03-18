@@ -27,6 +27,36 @@
           item-value="id"
         />
       </div>
+      <div class="cat-input">
+        <v-row>
+          <v-col
+            cols="12"
+            md="4"
+          >
+            <v-img
+              v-if="post.thumbnail.url"
+              :src="post.thumbnail.url"
+              height="100"
+              width="200"
+            />
+          </v-col>
+          <v-col
+            class="justify-space-around mt-12"
+            cols="12"
+            md="8"
+          >
+            <v-file-input
+              v-model="file"
+              counter
+              show-size
+              accept="image/png, image/jpeg, image/bmp"
+              prepend-icon="mdi-camera"
+              placeholder="Unggah thumbnail"
+              @change="selected"
+            />
+          </v-col>
+        </v-row>
+      </div>
     </div>
     <v-row justify="center">
       <v-col
@@ -77,6 +107,8 @@
       quillEditor,
     },
     data: () => ({
+      file: null,
+      image_id: null,
       title: '',
       statusKey: '',
       category: '',
@@ -109,6 +141,17 @@
       },
     },
     methods: {
+      selected (event) {
+        console.log(this.file)
+        const data = new FormData()
+        data.append('photo', this.file)
+        data.append('name_thumbnail', this.file.name)
+        const URL = 'http://127.0.0.1:8000/api/thumbnail'
+        axios.post(URL, data).then(response => {
+          console.log(response.data)
+          this.image_id = response.data.data.id
+        })
+      },
       publish () {
         // TODO
         this.formEntered = true
@@ -132,6 +175,7 @@
           category: this.post.category_id,
           status: this.post.status,
           post: this.post.post,
+          thumbnail_id: this.image_id ? this.image_id : this.post.thumbnail_id,
         })
         this.$router.push({ path: '/post/news' })
         this.$toast.success('Berhasil mengubah data', {

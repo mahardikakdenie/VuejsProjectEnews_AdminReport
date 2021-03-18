@@ -2,6 +2,7 @@
   <v-app>
     <v-row class="mt-12">
       <v-col
+        v-if="contents"
         cols="12"
         md="4"
         lg="4"
@@ -86,7 +87,7 @@
                       </v-btn>
                       <v-btn
                         icon
-                        @click="approvenews"
+                        @click="approveNews(item.id)"
                       >
                         <v-icon color="primary">
                           mdi-checkbox-marked-circle-outline
@@ -101,18 +102,33 @@
         </base-material-card>
       </v-col>
     </v-row>
-    <v-col>
-      <template>
-        <v-dialog v-model="dialog.open">
-          <base-dialog />
-        </v-dialog>
-      </template>
-    </v-col>
+    <v-row>
+      <v-col
+        cols="12"
+        md="6"
+      >
+        <template>
+          <v-dialog
+            v-model="dialog.open"
+            width="1000"
+            :retain-focus="false"
+          >
+            <base-dialog
+              text1="Approve"
+              text3="Cencel"
+              text4="Approve"
+              :contents="post"
+            />
+          </v-dialog>
+        </template>
+      </v-col>
+    </v-row>
   </v-app>
 </template>
 
 <script>
   import axios from 'axios'
+  import { mapGetters } from 'vuex'
   axios.defaults.headers.common.Authorization =
     'Bearer ' + localStorage.getItem('access')
   export default {
@@ -170,6 +186,9 @@
         open: false,
       },
     }),
+    computed: {
+      ...mapGetters('post', ['post']),
+    },
     methods: {
       deltPostNews (id) {
         this.$emit('deltPostNews', id)
@@ -180,6 +199,8 @@
             type: 'post/searchPost',
             q: this.q,
           })
+        } else if (this.q === '') {
+          this.getPost()
         }
       },
       search () {
@@ -194,7 +215,7 @@
       getPost () {
         this.$emit('getPost')
       },
-      approvenews (id) {
+      approveNews (id) {
         this.$store.dispatch({
           type: 'post/approvePostNews',
           id: id,
@@ -208,8 +229,13 @@
         })
         this.getPost()
       },
-      open () {
-        this.open.dialog = true
+      open (id) {
+        this.dialog.open = false
+        this.$store.dispatch({
+          type: 'post/showListNews',
+          id: id,
+        })
+        this.dialog.open = true
       },
     },
   }
