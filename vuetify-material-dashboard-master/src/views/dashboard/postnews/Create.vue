@@ -73,6 +73,7 @@
   import { Button, Input, Select } from 'iview'
   import { mapGetters } from 'vuex'
   import axios from 'axios'
+  axios.defaults.baseURL = process.env.VUE_APP_DOMAIN
   axios.defaults.headers.common.Authorization =
     'Bearer ' + localStorage.getItem('access')
 
@@ -128,9 +129,8 @@
         const data = new FormData()
         data.append('photo', this.file)
         data.append('name_thumbnail', this.file.name)
-        const URL = 'http://127.0.0.1:8000/api/thumbnail'
+        const URL = 'api/thumbnail'
         axios.post(URL, data).then(response => {
-          console.log(response.data)
           this.image_id = response.data.data.id
         })
       },

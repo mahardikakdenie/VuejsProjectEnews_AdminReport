@@ -4,6 +4,8 @@ import auth from './module/auth'
 import all from './module/all'
 import post from './module/post'
 import category from './module/category'
+import other from './module/other/_setter'
+import comments from './module/other/index'
 
 Vue.use(Vuex)
 
@@ -13,6 +15,8 @@ export default new Vuex.Store({
     all: all,
     post: post,
     category: category,
+    other: other,
+    comments: comments,
   },
   state: {
     drawer: null,

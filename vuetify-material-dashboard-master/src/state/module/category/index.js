@@ -1,4 +1,5 @@
 import axios from 'axios'
+axios.defaults.baseURL = process.env.VUE_APP_DOMAIN
 axios.defaults.headers.common.Authorization =
   'Bearer ' + localStorage.getItem('access')
 
@@ -35,7 +36,7 @@ export default {
 
       return new Promise((resolve, reject) => {
         axios
-          .get('http://127.0.0.1:8000/api/category')
+          .get('api/category')
           .then(response => {
             if (response.data.meta.status) {
               const category = response.data

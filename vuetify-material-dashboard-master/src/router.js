@@ -72,9 +72,17 @@ export default new Router({
         },
         // Pages
         {
-          name: 'User Profile',
-          path: 'pages/user',
+          name: 'Index Categories',
+          path: 'pages/categories',
           component: () => import('@/views/dashboard/pages/UserProfile'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          name: 'Index Comments',
+          path: 'pages/comments',
+          component: () => import('@/views/dashboard/pages/Timeline'),
           meta: {
             requiresAuth: true,
           },

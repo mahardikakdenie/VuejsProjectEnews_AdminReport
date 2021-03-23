@@ -44,5 +44,7 @@
   "wizard": "Wizard",
   "logout": "Logout",
   "news": "News",
-  "create": "Create News"
+  "create": "Create News",
+  "categories": "Categories",
+  "comments": "Comments"
 }

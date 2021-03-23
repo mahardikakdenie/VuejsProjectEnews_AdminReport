@@ -17,7 +17,8 @@
             col5="Category"
             col6="Sender"
             col7="Actions"
-            :contents="post"
+            :page="page"
+            :contents="post.data"
             @deltPostNews="delPost($event)"
             @getPost="getPost"
           />
@@ -37,6 +38,7 @@
     data: () => ({
       isLoading: true,
       q: '',
+      page: 1,
     }),
     computed: {
       ...mapGetters('post', ['post']),
@@ -48,6 +50,7 @@
       getPost () {
         this.$store.dispatch({
           type: 'post/getPost',
+          page: this.page,
         })
         this.isLoading = false
       },

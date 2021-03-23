@@ -1,4 +1,5 @@
 import axios from 'axios'
+axios.defaults.baseURL = process.env.VUE_APP_DOMAIN
 axios.defaults.headers.common.Authorization =
   'Bearer ' + localStorage.getItem('access')
 export default {
@@ -49,20 +50,22 @@ export default {
     },
   },
   actions: {
-    getPost ({ commit, state }) {
+    getPost ({ commit }, payload) {
       axios.defaults.headers.common.Authorization =
         'Bearer ' + localStorage.getItem('access')
       return new Promise((resolve, reject) => {
         const params = {
           id: '-id',
           limit: 10,
+          page: payload.page,
+          q: payload.q,
           // category: 'komunitas',
         }
         axios
-          .get('http://127.0.0.1:8000/api/post', { params: params })
+          .get('api/post', { params: params })
           .then(response => {
             if (response.data.meta.status) {
-              const post = response.data.data
+              const post = response.data
               commit('GET_POST', post)
               resolve(response)
             }
@@ -77,7 +80,7 @@ export default {
         'Bearer ' + localStorage.getItem('access')
       return new Promise((resolve, reject) => {
         axios
-          .delete('http://127.0.0.1:8000/api/post/' + payload.id)
+          .delete('api/post/' + payload.id)
           .then(response => {
             if (response.data.meta.status) {
               resolve(response)
@@ -98,7 +101,7 @@ export default {
       }
       return new Promise((resolve, reject) => {
         axios
-          .get('http://127.0.0.1:8000/api/post', {
+          .get('api/post', {
             params: params,
           })
           .then(response => {
@@ -116,7 +119,7 @@ export default {
     UploadNews ({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .post('http://127.0.0.1:8000/api/post', {
+          .post('api/post', {
             title: payload.title,
             category_id: payload.category_id,
             status: payload.status,
@@ -138,7 +141,7 @@ export default {
     editShow ({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .put(`http://127.0.0.1:8000/api/post/${payload.id}`, {
+          .put(`api/post/${payload.id}`, {
             title: payload.title,
             category_id: payload.category_id,
             status: payload.status,
@@ -160,7 +163,7 @@ export default {
     showListNews ({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .get(`http://127.0.0.1:8000/api/post/${payload.id}`)
+          .get(`api/post/${payload.id}`)
           .then(response => {
             if (response.data.meta.status) {
               const post = response.data.data
@@ -176,7 +179,7 @@ export default {
     approvePostNews ({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .patch(`http://127.0.0.1:8000/api/post/${payload.id}/approve`)
+          .patch(`api/post/${payload.id}/approve`)
           .then(response => {
             if (response.data.meta.status) {
               const post = response.data.data

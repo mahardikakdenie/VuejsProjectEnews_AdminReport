@@ -52,13 +52,13 @@
                   </th>
                 </tr>
               </thead>
-              <template v-if="contents">
+              <template>
                 <tbody
-                  v-for="(item, i) in contents"
+                  v-for="(item, i) in post.data.data"
                   :key="i"
                 >
                   <tr>
-                    <td>{{ i + 1 }}</td>
+                    <td>{{ i + post.data.from }}</td>
                     <td>{{ item.title }}</td>
                     <td>{{ item.status ? item.status : ' - ' }}</td>
                     <td>{{ item.views }}</td>
@@ -98,29 +98,14 @@
                 </tbody>
               </template>
             </v-simple-table>
+            <v-pagination
+              v-model="page"
+              :length="post.data.last_page ? post.data.last_page : 1"
+              total-visible="5"
+              @input="getNews()"
+            />
           </div>
         </base-material-card>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col
-        cols="12"
-        md="6"
-      >
-        <template>
-          <v-dialog
-            v-model="dialog.open"
-            width="1000"
-            :retain-focus="false"
-          >
-            <base-dialog
-              text1="Approve"
-              text3="Cencel"
-              text4="Approve"
-              :contents="post"
-            />
-          </v-dialog>
-        </template>
       </v-col>
     </v-row>
   </v-app>
@@ -181,6 +166,7 @@
     },
     data: () => ({
       q: '',
+      page: 1,
       approve: false,
       dialog: {
         open: false,
@@ -192,15 +178,16 @@
     methods: {
       deltPostNews (id) {
         this.$emit('deltPostNews', id)
+        this.getNews()
       },
       searchPost () {
         if (this.q !== '') {
           this.$store.dispatch({
-            type: 'post/searchPost',
+            type: 'post/getPost',
             q: this.q,
           })
         } else if (this.q === '') {
-          this.getPost()
+          this.getNews()
         }
       },
       search () {
@@ -227,7 +214,7 @@
           duration: 3000,
           dismissible: true,
         })
-        this.getPost()
+        this.getNews()
       },
       open (id) {
         this.dialog.open = false
@@ -236,6 +223,12 @@
           id: id,
         })
         this.dialog.open = true
+      },
+      getNews () {
+        this.$store.dispatch({
+          type: 'post/getPost',
+          page: this.page,
+        })
       },
     },
   }

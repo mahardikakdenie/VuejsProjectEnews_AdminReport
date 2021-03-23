@@ -47,7 +47,7 @@ export default {
     setName ({ commit }) {
       return new Promise((resolve, reject) => {
         axios
-          .get('http://127.0.0.1:8000/api/user/me')
+          .get('api/user/me')
           .then(response => {
             if (response.data.meta.status) {
               const payload = response.data.data

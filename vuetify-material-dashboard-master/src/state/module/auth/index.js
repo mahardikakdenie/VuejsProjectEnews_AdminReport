@@ -1,4 +1,5 @@
 import axios from 'axios'
+axios.defaults.baseURL = process.env.VUE_APP_DOMAIN
 export default {
   namespaced: true,
   state: {
@@ -26,7 +27,7 @@ export default {
     getToken ({ commit }, credentials) {
       return new Promise((resolve, reject) => {
         axios
-          .post('http://127.0.0.1:8000/api/login', {
+          .post('api/login', {
             email: credentials.email,
             password: credentials.password,
             device_name: 'mobile',
@@ -49,7 +50,7 @@ export default {
       // if (context.getters.loggedIn) {
       return new Promise((resolve, reject) => {
         axios
-          .get('http://127.0.0.1:8000/api/user/logout')
+          .get('api/logout')
           .then(response => {
             localStorage.removeItem('access')
             localStorage.removeItem('user')

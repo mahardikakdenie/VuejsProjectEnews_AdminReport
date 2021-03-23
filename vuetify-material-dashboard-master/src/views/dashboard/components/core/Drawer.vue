@@ -115,7 +115,17 @@
         {
           icon: 'mdi-account',
           title: 'user',
-          to: '/pages/user',
+          group: '/pages',
+          children: [
+            {
+              title: 'categories',
+              to: 'categories',
+            },
+            {
+              title: 'comments',
+              to: 'comments',
+            },
+          ],
         },
         {
           icon: 'mdi-newspaper-variant-outline',
