@@ -140,14 +140,9 @@ export default {
     },
     editShow ({ commit }, payload) {
       return new Promise((resolve, reject) => {
+        const body = { ...payload }
         axios
-          .put(`api/post/${payload.id}`, {
-            title: payload.title,
-            category_id: payload.category_id,
-            status: payload.status,
-            post: payload.post,
-            thumbnail_id: payload.thumbnail_id,
-          })
+          .put(`api/post/${payload.id}`, body)
           .then(response => {
             if (response.data.meta.status) {
               const post = response.data.data

@@ -34,13 +34,13 @@
             md="4"
           >
             <v-img
-              v-if="post.thumbnail.url"
-              :src="post.thumbnail.url"
+              v-if="post.url_thumbnail"
+              :src="post.url_thumbnail"
               height="100"
               width="200"
             />
           </v-col>
-          <v-col
+          <!-- <v-col
             class="justify-space-around mt-12"
             cols="12"
             md="8"
@@ -53,6 +53,18 @@
               prepend-icon="mdi-camera"
               placeholder="Unggah thumbnail"
               @change="selected"
+            />
+          </v-col> -->
+        </v-row>
+        <v-row>
+          <v-col
+            cols="12"
+            md="12"
+          >
+            <v-textarea
+              v-model="post.url_thumbnail"
+              placeholder="Enter a post title"
+              prepend-icon="mdi-message"
             />
           </v-col>
         </v-row>
@@ -169,22 +181,34 @@
         })
       },
       editPostNews () {
-        this.$store.dispatch({
-          id: this.$route.params.id,
-          type: 'post/editShow',
-          title: this.post.title,
-          category_id: this.post.category_id,
-          status: this.post.status,
-          post: this.post.post,
-          thumbnail_id: this.image_id ? this.image_id : this.post.thumbnail_id,
-        })
-        this.$router.push({ path: '/post/news' })
-        this.$toast.success('Berhasil mengubah data', {
-          type: 'success',
-          position: 'top-right',
-          duration: 3000,
-          dismissible: true,
-        })
+        this.$store
+          .dispatch({
+            id: this.$route.params.id,
+            type: 'post/editShow',
+            title: this.post.title,
+            category_id: this.post.category_id,
+            status: this.post.status,
+            post: this.post.post,
+            url_thumbnail: this.post.url_thumbnail,
+          })
+          .then(response => {
+            if (response.data.meta.status) {
+              this.$router.push({ path: '/post/news' })
+              this.$toast.success('Berhasil mengubah data', {
+                type: 'success',
+                position: 'top-right',
+                duration: 3000,
+                dismissible: true,
+              })
+            } else {
+              this.$toast.error('error', {
+                type: 'error',
+                position: 'top-right',
+                duration: 3000,
+                dismissible: true,
+              })
+            }
+          })
       },
     },
     // eslint-disable-next-line vue/order-in-components

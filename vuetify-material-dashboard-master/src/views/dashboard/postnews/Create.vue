@@ -28,7 +28,7 @@
         />
       </div>
       <div class="cat-input">
-        <v-file-input
+        <!-- <v-file-input
           v-model="file"
           counter
           show-size
@@ -36,6 +36,11 @@
           prepend-icon="mdi-camera"
           placeholder="Unggah Gambar Thumbnail"
           @change="selected"
+        /> -->
+        <v-text-field
+          v-model="url_thumbnail"
+          placeholder="Enter a post title"
+          prepend-icon="mdi-message"
         />
       </div>
     </div>
@@ -95,6 +100,7 @@
       statusKey: '',
       category: '',
       image_url: '',
+      url_thumbnail: '',
       content: '',
       editorOption: {
         debug: 'info',
@@ -150,7 +156,7 @@
           category_id: this.category,
           status: this.statusKey,
           post: this.content,
-          thumbnail_id: this.image_id,
+          url_thumbnail: this.url_thumbnail,
         })
         //   .then(response => {
         // if (response.data.meta.status) {
